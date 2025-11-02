@@ -3,45 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HY & JM Wedding Invitation</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: linear-gradient(180deg,#fff9f9,#ffeaea);
-      font-family: "Poppins", sans-serif;
-    }
-    h1 {color:#d86b6b;font-size:2rem;margin-bottom:10px;}
-    p {color:#555;margin-bottom:30px;font-size:1.1rem;}
-    button {
-      background:#d86b6b;color:#fff;border:none;border-radius:50px;
-      padding:14px 36px;font-size:1.1rem;cursor:pointer;
-      transition:all .3s ease;
-    }
-    button:hover {background:#c05656;transform:scale(1.05);}
-  </style>
+  <title>Wedding Invitation Website</title>
 </head>
-<body>
-  <h1>HY & JM</h1>
-  <p>Welcome to Our Wedding Invitation</p>
-  <button id="enter-btn">💖 Tap to Enter</button>
+<body style="margin:0; background-color:#fff;" onload="startMusic()">
 
-  <audio id="bg-music" loop>
-    <source src="Say U Love Me.mp3" type="audio/mpeg">
-  </audio>
+    <!-- 🎵 Background Music -->
+    <audio id="bg-music" autoplay loop>
+      <!-- 
+      <source src="Obvious.mp3" type="audio/mpeg">
+      <source src="周杰倫 - 愛的飛行日記 HQ.mp3" type="audio/mpeg">
+      <source src="周杰倫 Jay Chou園遊會 Fun Fair-Official Music Video.mp3" type="audio/mpeg">
+      -->
+      
+     <source src="Say U Love Me.mp3" type="audio/mpeg">
+      
+    </audio>
 
-  <script>
-    const btn = document.getElementById('enter-btn');
-    const music = document.getElementById('bg-music');
-    btn.addEventListener('click', async () => {
-      try { await music.play(); } catch {}
-      window.location.href = "https://www.canva.com/design/DAG2mvb8GT8/gXMKNEmNhJgGzuXacPKl0A/view";
-    });
-  </script>
+    <script>
+        async function startMusic() {
+            const audio = document.getElementById('bg-music');
+            try {
+                await audio.play();
+                console.log("Autoplay success 🎶");
+            } catch (err) {
+                console.log("Waiting for browser permission...");
+                setTimeout(startMusic, 1000); // retry every second until allowed
+            }
+        }
+        window.addEventListener('load', startMusic);
+    </script>
+
+
+    <!-- 🌸 Canva Embed -->
+    <div style="position: relative; width: 100%; height: 0; padding-top: 562.2255%;
+  padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+  border-radius: 8px; will-change: transform;">
+        <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+                src="https://www.canva.com/design/DAG2mvb8GT8/gXMKNEmNhJgGzuXacPKl0A/view?embed"
+                allowfullscreen="allowfullscreen" allow="fullscreen">
+        </iframe>
+    </div>
+
+    <a href="https://www.canva.com/design/DAG2mvb8GT8/gXMKNEmNhJgGzuXacPKl0A/view?utm_content=DAG2mvb8GT8&utm_campaign=designshare&utm_medium=embeds&utm_source=link"
+       target="_blank" rel="noopener">
+        Wedding Invitation Website (HY & JM)
+    </a> by Jiamin0529
+
 </body>
 </html>
