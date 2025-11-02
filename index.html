@@ -3,52 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wedding Invitation Website</title>
+  <title>HY & JM Wedding Invitation</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Poppins", sans-serif;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* 💌 封面页样式 */
+    #intro {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #fff9f9, #ffeaea);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1000;
+      transition: opacity 1s ease;
+    }
+
+    #intro h1 {
+      font-size: 2rem;
+      color: #d86b6b;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    #intro p {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    #enter-btn {
+      background: #d86b6b;
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    #enter-btn:hover {
+      background: #c05656;
+      transform: scale(1.05);
+    }
+
+    /* 🎵 音乐按钮 */
+    #music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #music-btn.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #music-btn img {
+      width: 30px;
+      height: 30px;
+    }
+
+    /* Canva 全屏 */
+    iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+    }
+  </style>
 </head>
-<body style="margin:0; background-color:#fff;" onload="startMusic()">
 
-    <!-- 🎵 Background Music -->
-    <audio id="bg-music" autoplay loop>
-      <!-- 
-      <source src="Obvious.mp3" type="audio/mpeg">
-      <source src="周杰倫 - 愛的飛行日記 HQ.mp3" type="audio/mpeg">
-      <source src="周杰倫 Jay Chou園遊會 Fun Fair-Official Music Video.mp3" type="audio/mpeg">
-      -->
-      
-     <source src="Say U Love Me.mp3" type="audio/mpeg">
-      
-    </audio>
+<body>
 
-    <script>
-        async function startMusic() {
-            const audio = document.getElementById('bg-music');
-            try {
-                await audio.play();
-                console.log("Autoplay success 🎶");
-            } catch (err) {
-                console.log("Waiting for browser permission...");
-                setTimeout(startMusic, 1000); // retry every second until allowed
-            }
-        }
-        window.addEventListener('load', startMusic);
-    </script>
+  <!-- 💌 进入封面 -->
+  <div id="intro">
+    <h1>HY & JM</h1>
+    <p>Welcome to Our Wedding Invitation</p>
+    <button id="enter-btn">💖 Tap to Enter</button>
+  </div>
 
+  <!-- 🎵 背景音乐 -->
+  <audio id="bg-music" loop>
+    <source src="SayULoveMe.mp3" type="audio/mpeg">
+  </audio>
 
-    <!-- 🌸 Canva Embed -->
-    <div style="position: relative; width: 100%; height: 0; padding-top: 562.2255%;
-  padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
-  border-radius: 8px; will-change: transform;">
-        <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-                src="https://www.canva.com/design/DAG2mvb8GT8/gXMKNEmNhJgGzuXacPKl0A/view?embed"
-                allowfullscreen="allowfullscreen" allow="fullscreen">
-        </iframe>
-    </div>
+  <!-- 🎵 音乐控制按钮 -->
+  <button id="music-btn">
+    <img id="music-icon" src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Music">
+  </button>
 
-    <a href="https://www.canva.com/design/DAG2mvb8GT8/gXMKNEmNhJgGzuXacPKl0A/view?utm_content=DAG2mvb8GT8&utm_campaign=designshare&utm_medium=embeds&utm_source=link"
-       target="_blank" rel="noopener">
-        Wedding Invitation Website (HY & JM)
-    </a> by Jiamin0529
+  <!-- 🌸 Canva 网页嵌入 -->
+  <iframe id="canva-frame"
+    src="https://www.canva.com/design/DAG2mvb8GT8/gXMKNEmNhJgGzuXacPKl0A/view?embed"
+    allowfullscreen="true"></iframe>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const enterBtn = document.getElementById('enter-btn');
+    const audio = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
+    const musicIcon = document.getElementById('music-icon');
+    const canvaFrame = document.getElementById('canva-frame');
+    let isPlaying = false;
+
+    // 💖 点击进入按钮
+    enterBtn.addEventListener('click', async () => {
+      intro.style.opacity = '0';
+      setTimeout(() => { intro.style.display = 'none'; }, 1000);
+
+      // 显示 Canva 网页
+      canvaFrame.style.display = 'block';
+
+      // 尝试播放音乐
+      try {
+        await audio.play();
+        isPlaying = true;
+        musicBtn.classList.add('active');
+      } catch (err) {
+        console.log("Autoplay blocked:", err);
+      }
+    });
+
+    // 🎵 点击音乐按钮控制播放
+    musicBtn.addEventListener('click', async () => {
+      if (audio.paused) {
+        await audio.play();
+        isPlaying = true;
+        musicIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png"; // 播放中
+      } else {
+        audio.pause();
+        isPlaying = false;
+        musicIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727240.png"; // 暂停
+      }
+    });
+  </script>
 
 </body>
 </html>
-
